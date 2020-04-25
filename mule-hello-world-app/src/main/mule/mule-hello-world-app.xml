@@ -2,15 +2,28 @@
 
 <mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="87dbc5a8-a26e-45e5-881b-aaf10ca83d4c" >
-		<http:listener-connection host="0.0.0.0" port="8081" />
+
+	<http:listener-config name="HTTP_Listener_config"
+		doc:name="HTTP Listener config" doc:id="87dbc5a8-a26e-45e5-881b-aaf10ca83d4c">
+		<http:listener-connection host="${http.listener.host}"
+			port="${http.listener.port}" />
 	</http:listener-config>
-	<flow name="main-flow" doc:id="79e17b91-e621-4dc4-b3ae-30180bee1ae6" >
-		<http:listener doc:name="Listener" doc:id="aca6827a-2bcb-4e6e-9f06-001b707df0c0" config-ref="HTTP_Listener_config" path="/hello-world"/>
-		<logger level="INFO" doc:name="Initial Log" doc:id="f6691ede-35d0-4d56-9170-3dbce419af7f" message="main-flow is invoked."/>
-		<set-payload value="#['Hello World']" doc:name="Set Payload" doc:id="9f526df2-44ca-49d9-9fcf-d1d226f3278a" mimeType="text/plain"/>
-		<logger level="INFO" doc:name="Exit Log" doc:id="430a1cf8-551f-4526-836a-483547a45d3d" message="Exit from main-flow."/>
+	
+	<configuration-properties doc:name="Configuration properties"
+		doc:id="173d5bfe-1d71-4089-bf8e-2285430526f0" file="config/${env}.yaml" />
+		
+	<flow name="main-flow" doc:id="79e17b91-e621-4dc4-b3ae-30180bee1ae6">
+		<http:listener doc:name="Listener"
+			doc:id="aca6827a-2bcb-4e6e-9f06-001b707df0c0" config-ref="HTTP_Listener_config"
+			path="${http.listener.path}" />
+		<logger level="INFO" doc:name="Initial Log"
+			doc:id="f6691ede-35d0-4d56-9170-3dbce419af7f" message="main-flow is invoked." />
+		<set-payload value="#['Hello World']" doc:name="Set Payload"
+			doc:id="9f526df2-44ca-49d9-9fcf-d1d226f3278a" mimeType="text/plain" />
+		<logger level="INFO" doc:name="Exit Log"
+			doc:id="430a1cf8-551f-4526-836a-483547a45d3d" message="Exit from main-flow." />
 	</flow>
 </mule>
